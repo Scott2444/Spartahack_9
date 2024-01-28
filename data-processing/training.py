@@ -14,8 +14,8 @@ from tensorflow.keras import layers
 def build_and_compile_model(norm):
   model = keras.Sequential([
       norm,
-      layers.Dense(64, activation='relu'),
-      layers.Dense(64, activation='relu'),
+      layers.Dense(32, activation='relu'),
+      layers.Dense(32, activation='relu'),
       layers.Dense(1)
   ])
 
@@ -75,11 +75,12 @@ print(hist.tail())
 def plot_loss(history):
     plt.plot(history.history['loss'], label='loss')
     plt.plot(history.history['val_loss'], label='val_loss')
-    plt.ylim([0, 10])
+    plt.ylim([0, 1])
     plt.xlabel('Epoch')
-    plt.ylabel('Error [MPG]')
+    plt.ylabel('Error[Results]')
     plt.legend()
     plt.grid(True)
+    plt.show()
 
 plot_loss(history)
 
@@ -94,9 +95,10 @@ a = plt.axes(aspect='equal')
 plt.scatter(test_labels, test_predictions)
 plt.xlabel('True Values [Results]')
 plt.ylabel('Predictions [Results]')
-lims = [0, 50]
+lims = [0, 1]
 plt.xlim(lims)
 plt.ylim(lims)
 _ = plt.plot(lims, lims)
+plt.show()
 
 print("Finished")
