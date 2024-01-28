@@ -1,20 +1,38 @@
-.text-align {
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
-}
-
-.column-align {
-    display: flex;
-    flex-direction: row;
-    column-gap: 40px;
-}
-
-.row-align {
+.desc-div{
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.hide{
-    filter:opacity(0);
+.search-bar{
+    height:25px;
+    border-radius:6px;
+    border-width:0.4em;
+    border-style: solid;
+    box-shadow: 0 0px 15px 10px #393e79;
+    border:none;
+    outline: none;
+}
+
+.stats {
+    display: flex;
+    column-gap: 100px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.left {
+    color: blue;
+    font-size: 35px;
+    font: bold;
+}
+
+.right {
+    color: red;
+    font-size: 35px;
+    font: bold;
 }
