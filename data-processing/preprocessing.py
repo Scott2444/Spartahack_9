@@ -4,7 +4,15 @@ def string_to_int(string):
     return int(string.replace(',', ''))
 
 def process_data():
-    STATE = 'Michigan'
+    STATES = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado",
+              "Connecticut", "District ", "of Columbia", "Delaware", "Florida", "Georgia", "Guam",
+              "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana",
+              "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi",
+              "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico",
+              "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island",
+              "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont",
+              "Washington", "Wisconsin", "West Virginia", "Wyoming"]
+
     EXCLUDE_FIELDS = ["Median age (years)", "18 years and over", "65 years and over",
                       "One race", "Different state", "State of residence", "Different state",
                       "Born in Puerto Rico, U.S. Island areas, or born abroad to American parent(s)",
@@ -17,55 +25,53 @@ def process_data():
                       "Total households", "Median household income (dollars)", "Mean household income (dollars)",
                       "Civilian noninstitutionalized population under 19 years", "Population 25 years and over",
                       ""]
-    print(STATE + '_District_all.csv')
-    file = open(STATE + '_District_all.csv')
-    csvreader = csv.reader(file)
-
-    i = 1
-    total_pop = []
-    num_districts = 0
-    fields = ["District", "Result"]
 
     data = []
-    for row in csvreader:
+    fields = ["District", "Result"]
+    num_districts = 0
+    num_districts_covered = 0
 
-        if i == 244: # End of file
-            break
+    for STATE in STATES:
+        num_districts_covered += num_districts
 
-        if i == 1:  # Number of districts
-            num_districts = (len(row) - 3) // 2
-            data = [{"District": "", "Result": 0.0} for q in range(num_districts)]
-            for j in range(len(data)):
-                data[j]["District"] = STATE + str(j+1)
+        file = open(STATE + '_District_all.csv')
+        csvreader = csv.reader(file)
 
-            i += 1
-            continue
+        i = 1
+        total_pop = []
 
-        if '.' in row[3] or row[2] in EXCLUDE_FIELDS:  # Skip all float values and excluded fields
-            i += 1
-            continue
+        for row in csvreader:
 
-        if row[2] == "Total population":
-            if i == 2:  # Total Population
-                for j in range(3, len(row), 2):
-                    total_pop.append(string_to_int(row[j]))
-            i += 1
-            continue
-        else:
-            fields.append(row[2])
-            for district in data:
-                district[row[2]] = None
+            if i == 244: # End of file
+                break
 
-        # Calculate proportion of population
-        for j in range(3, len(row), 2):
-            data[(j - 3) // 2][row[2]] = string_to_int(row[j])/total_pop[(j - 3) // 2]
+            if i == 1:  # Number of districts
+                num_districts = (len(row) - 3) // 2
+                data.extend([{"District": STATE + str(q+1), "Result": 0.0} for q in range(num_districts)])
+                i += 1
+                continue
 
-        i += 1  # Increment counter
+            if '.' in row[3] or row[2] in EXCLUDE_FIELDS:  # Skip all float values and excluded fields
+                i += 1
+                continue
 
-    # Remove unused fields from data
-    for row in data:
-        print(row)
+            if row[2] == "Total population":
+                if i == 2:  # Total Population
+                    for j in range(3, len(row), 2):
+                        total_pop.append(string_to_int(row[j]))
+                i += 1
+                continue
+            else:
+                if row[2] in fields:
+                    fields.append(row[2])
+                    for district in data:
+                        district[row[2]] = None
 
+            # Calculate proportion of population
+            for j in range(3, len(row), 2):
+                data[num_districts_covered + (j - 3) // 2][row[2]] = string_to_int(row[j])/total_pop[(j - 3) // 2]
+
+            i += 1  # Increment counter
 
     # Save data into CSV file
     print(fields)
