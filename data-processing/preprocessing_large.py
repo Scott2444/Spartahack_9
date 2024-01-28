@@ -30,15 +30,15 @@ def process_data_large():
                       "With private health insurance", "With public coverage", "Less than 9th grade", "9th to 12th grade, no diploma",
                       "High school graduate (includes equivalency)", "Some college, no degree", "Associate's degree", "Bachelor's degree",
                       "Graduate or professional degree"]
-    NOT_PERCENTS = ["Median age (years)"]
+    NOT_PERCENTS = ["Median age (years)", "Median (dollars)"]
 
-    folder_path = "all-data/"
+    folder_path = "Training Data 2010/"
 
-    for filename in glob.glob(os.path.join(folder_path, "*.csv")):
-        print(filename)
 
     data = []
     fields = ["District", "Result"]
+
+    districts_made = False
 
     for filename in glob.glob(os.path.join(folder_path, "*.csv")):
         file = open(filename , encoding="utf-8-sig")
@@ -47,7 +47,7 @@ def process_data_large():
         i = 1
 
         for row in csvreader:
-            if i == 1:
+            if i == 1 and not districts_made:
                 for j in range(2, len(row), 4):
                     district_name = row[j][row[j].rfind(',') + 2 : row[j].rfind('!')-1]
                     if "not defined" in row[j]:
@@ -63,6 +63,7 @@ def process_data_large():
                         continue
 
                     data.append({"District": district_name, "Result": 0.0})
+                districts_made = True
 
             field = row[0].strip()
             print(field)
@@ -70,6 +71,11 @@ def process_data_large():
             if field not in INCLUDE_FIELDS:
                 i += 1
                 continue
+
+            if field in fields:
+                i += 1
+                continue
+
 
             percentage = True
             if field in NOT_PERCENTS:
@@ -96,6 +102,7 @@ def process_data_large():
     print(fields)
     for row in data:
         print(row)
+
 
     with open('DistrictDataLarge.csv', 'w', newline='') as csvfile:
         # creating a csv dict writer object
