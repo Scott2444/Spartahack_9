@@ -1,20 +1,13 @@
-.text-align {
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
+.desc-div{
+    margin-top: 30px;
 }
 
-.column-align {
-    display: flex;
-    flex-direction: row;
-    column-gap: 40px;
-}
-
-.row-align {
-    display: flex;
-    flex-direction: column;
-}
-
-.hide{
-    filter:opacity(0);
+.search-bar{
+    height:25px;
+    border-radius:6px;
+    border-width:0.4em;
+    border-style: solid;
+    box-shadow: 0 0px 15px 10px #393e79;
+    border:none;
+    outline: none;
 }
