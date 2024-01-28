@@ -1,5 +1,3 @@
-import csv
-
 from preprocessing import process_data
 
 
