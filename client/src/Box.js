@@ -24,7 +24,7 @@ function Box (props) {
                 <img className={toggle ? "hide": "appear"}src={photoholder}width="250"height="250"></img>
                 <img className={toggle ? "appear-image": "hide"}src={party ? democrat : republican}width="250"height="250"></img>
             </div>
-            <button onClick={handleClick}className="button">Reveal</button>
+            <button onClick={handleClick}className="button">{toggle ? "Hide" : "Start"}</button>
             <div className={toggle ? "appear" :"hide-desc"}>
                 {/* <div className="desc-div"> */}
                     <Description handleParty={handleParty}redAmt={10}blueAmt={15}/>

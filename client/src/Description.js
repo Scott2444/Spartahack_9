@@ -18,7 +18,7 @@ function Description (props){
     return (
         <div className="desc-div">
             <input className="search-bar"type="text" 
-                placeholder="Enter a district number..."
+                placeholder="Enter district (e.g. Texas4)"
                 onChange={(event) => {setSearchTerm(event.target.value)
                 }}
             />
