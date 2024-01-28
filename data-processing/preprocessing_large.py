@@ -11,6 +11,9 @@ def string_to_percentage(string):
         return float("NaN")
 
 def string_to_float(string):
+    if ',' in string:
+        string = string.replace(',', '')
+        return float(string)
     try:
         return float(string)
     except:
