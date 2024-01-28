@@ -13,6 +13,7 @@ def string_to_percentage(string):
 def string_to_float(string):
     if ',' in string:
         string = string.replace(',', '')
+        string = string.replace('+', '')
         return float(string)
     try:
         return float(string)
@@ -35,7 +36,7 @@ def process_data_large():
                       "Graduate or professional degree"]
     NOT_PERCENTS = ["Median age (years)", "Median (dollars)"]
 
-    folder_path = "Training Data 2010/"
+    folder_path = "Output Data/"
 
 
     data = []

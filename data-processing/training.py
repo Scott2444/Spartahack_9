@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import json
 
 # Make NumPy printouts easier to read.
 np.set_printoptions(precision=3, suppress=True)
@@ -24,7 +25,7 @@ def build_and_compile_model(norm):
   return model
 
 # Read csv file to a raw dataframe
-raw_dataset = pd.read_csv('DistrictDatawithResults.csv')
+raw_dataset = pd.read_csv('InputTrainingData.csv')
 
 # Create a copy of the dataframe
 dataset = raw_dataset.copy()
@@ -100,5 +101,40 @@ plt.xlim(lims)
 plt.ylim(lims)
 _ = plt.plot(lims, lims)
 plt.show()
+
+
+# Predict output data and store in JSONL file
+raw_dataset = pd.read_csv('OutputData.csv')
+
+# Create a copy of the dataframe
+real_dataset = raw_dataset.copy()
+districts = real_dataset['District'].tolist()
+del real_dataset["District"] # Delete the district labeling
+real_predictions = full_model.predict(real_dataset).flatten()
+
+print(len(real_predictions))
+print(len(districts))
+
+predictions = []
+for i in range(len(districts)):
+    predictions.append({"District": districts[i], "Result": real_predictions[i]})
+
+print(predictions)
+with open("Predictions.jsonl", "w") as file:
+    # Assuming you have a list of dictionaries named "my_list"
+    for dictionary in predictions:
+        json.dump(dictionary, file)  # Write each dictionary to a separate line
+        file.write("\n")  # Add a newline character for JSONL formatting
+
+print(len(predictions))
+print(len(districts))
+
+# See Weights on Biases
+show_weights = True
+if show_weights:
+    weights, biases = full_model.layers[1].get_weights()
+    fields = train_features.columns
+    for i in range(len(weights)):
+        print(fields + ": " + weights)
 
 print("Finished")
