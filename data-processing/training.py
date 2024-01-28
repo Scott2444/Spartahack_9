@@ -14,8 +14,8 @@ from tensorflow.keras import layers
 def build_and_compile_model(norm):
   model = keras.Sequential([
       norm,
-      layers.Dense(32, activation='relu'),
-      layers.Dense(32, activation='relu'),
+      # layers.Dense(32, activation='relu'),
+      # layers.Dense(32, activation='relu'),
       layers.Dense(1)
   ])
 
@@ -65,7 +65,7 @@ history = full_model.fit(
     train_features,
     train_labels,
     validation_split=0.2,
-    verbose=0, epochs=50)
+    verbose=0, epochs=100)
 
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
