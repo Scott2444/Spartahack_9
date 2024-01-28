@@ -1,6 +1,10 @@
 import csv
 
 def string_to_int(string):
+    if "." in string:
+        return float(string)
+    if "+" in string:
+        string = string.replace('+', '')
     return int(string.replace(',', ''))
 
 def process_data():
@@ -25,7 +29,18 @@ def process_data():
                       "Total households", "Median household income (dollars)", "Mean household income (dollars)",
                       "Civilian noninstitutionalized population under 19 years", "Population 25 years and over",
                       ""]
-    INCLUDE_FIELDS = [""]
+    INCLUDE_FIELDS = ["Male", "Female", "Median age (years)", "White", "Black or African American",
+                      "American Indian and Alaska Native", "Asian", "Native Hawaiian and Other Pacific Islander",
+                      "Two or more races", "Born in United States", "Foreign born", "Employed", "Unemployed",
+                      "Public transportation (excluding taxicab)", "Agriculture, forestry, fishing and hunting, and mining",
+                      "Construction", "Manufacturing", "Wholesale trade", "Retail trade", "Transportation and warehousing, and utilities",
+                      "Information", "Finance and insurance, and real estate and rental and leasing",
+                      "Professional, scientific, and management, and administrative and waste management",
+                      "Educational services, and health care and social assistance", "Arts, entertainment, and recreation, and accommodation and food services",
+                      "Other services, except public administration", "Public administration", "Median (dollars)",
+                      "With private health insurance", "With public coverage", "Less than 9th grade", "9th to 12th grade, no diploma",
+                      "High school graduate (includes equivalency)", "Some college, no degree", "Associate's degree", "Bachelor's degree",
+                      "Graduate or professional degree"]
 
     data = []
     fields = ["District", "Result"]
@@ -52,9 +67,18 @@ def process_data():
                 i += 1
                 continue
 
-            if '.' in row[3] or row[2] in EXCLUDE_FIELDS or "Percentage" in row[1]:  # Skip all float values and excluded fields
+            # if '.' in row[3] or row[2] in EXCLUDE_FIELDS or "Percentage" in row[1]:  # Skip all float values and excluded fields
+            #     i += 1
+            #     continue
+
+            if row[2] not in INCLUDE_FIELDS and not row[2] == "Total population":
                 i += 1
                 continue
+
+            if row[2] == "Median (dollars)" and not row[1] == "Value":
+                i += 1
+                continue
+
 
             if row[2] == "Total population":
                 if i == 2:  # Total Population
@@ -63,19 +87,27 @@ def process_data():
                 i += 1
                 continue
             else:
-                if row[2] in fields:
+                if row[2] not in fields:
                     fields.append(row[2])
                     for district in data:
                         district[row[2]] = None
 
             # Calculate proportion of population
-            for j in range(3, len(row), 2):
-                data[num_districts_covered + (j - 3) // 2][row[2]] = string_to_int(row[j])/total_pop[(j - 3) // 2]
+            if "Median" in row[2]:
+                for j in range(3, len(row), 2):
+                    data[num_districts_covered + (j - 3) // 2][row[2]] = string_to_int(row[j])
+
+            else:
+                for j in range(3, len(row), 2):
+                    data[num_districts_covered + (j - 3) // 2][row[2]] = string_to_int(row[j])/total_pop[(j - 3) // 2]
 
             i += 1  # Increment counter
 
     # Save data into CSV file
     print(fields)
+    for row in data:
+        print(row)
+
     with open('DistrictData.csv', 'w', newline='') as csvfile:
         # creating a csv dict writer object
         writer = csv.DictWriter(csvfile, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)

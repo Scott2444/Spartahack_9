@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import csv
 
 # Make NumPy printouts easier to read.
 np.set_printoptions(precision=3, suppress=True)
@@ -25,7 +24,7 @@ def build_and_compile_model(norm):
   return model
 
 # Read csv file to a raw dataframe
-raw_dataset = pd.read_csv('DistrictData.csv')
+raw_dataset = pd.read_csv('DistrictDatawithResults.csv')
 
 # Create a copy of the dataframe
 dataset = raw_dataset.copy()
@@ -55,16 +54,34 @@ test_labels = test_features.pop('Result')
 normalizer = tf.keras.layers.Normalization(axis=-1)
 normalizer.adapt(np.array(train_features))
 
+input_layer = layers.Input(shape=(len(train_features.columns),))
+normalized_input = normalizer(input_layer)
+
 full_model = build_and_compile_model(normalizer)
 
 full_model.summary()
 
-full_model.fit(
+history = full_model.fit(
     train_features,
     train_labels,
     validation_split=0.2,
-    verbose=0, epochs=3)
+    verbose=0, epochs=50)
 
+hist = pd.DataFrame(history.history)
+hist['epoch'] = history.epoch
+hist.tail()
+print(hist.tail())
+
+def plot_loss(history):
+    plt.plot(history.history['loss'], label='loss')
+    plt.plot(history.history['val_loss'], label='val_loss')
+    plt.ylim([0, 10])
+    plt.xlabel('Epoch')
+    plt.ylabel('Error [MPG]')
+    plt.legend()
+    plt.grid(True)
+
+plot_loss(history)
 
 test_results = {}
 test_results['full_model'] = full_model.evaluate(test_features, test_labels, verbose=0)
