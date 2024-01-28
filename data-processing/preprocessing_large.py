@@ -1,4 +1,6 @@
 import csv
+import glob
+import os
 
 def string_to_percentage(string):
     if "%" in string:
@@ -30,13 +32,16 @@ def process_data_large():
                       "Graduate or professional degree"]
     NOT_PERCENTS = ["Median age (years)"]
 
-    files = ["SexandGenderData"]
+    folder_path = "all-data/"
+
+    for filename in glob.glob(os.path.join(folder_path, "*.csv")):
+        print(filename)
 
     data = []
     fields = ["District", "Result"]
 
-    for file_name in files:
-        file = open(file_name + '.csv', encoding="utf-8-sig")
+    for filename in glob.glob(os.path.join(folder_path, "*.csv")):
+        file = open(filename , encoding="utf-8-sig")
         csvreader = csv.reader(file)
 
         i = 1
