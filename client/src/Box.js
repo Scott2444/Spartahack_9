@@ -22,7 +22,7 @@ function Box (props) {
         <div className="box-div">
             <div className="image-div">
                 <img className={toggle ? "hide": "appear"}src={photoholder}width="250"height="250"></img>
-                <img className={toggle ? "appear": "hide"}src={party ? democrat : republican}width="250"height="250"></img>
+                <img className={toggle ? "appear-image": "hide"}src={party ? democrat : republican}width="250"height="250"></img>
             </div>
             <button onClick={handleClick}className="button">Reveal</button>
             <div className={toggle ? "appear" :"hide-desc"}>

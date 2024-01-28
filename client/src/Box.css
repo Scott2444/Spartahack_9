@@ -3,9 +3,9 @@
     padding: 10px;
     border-radius: 25px;
     width: 250px;
-    height: 500px;
+    height: 600px;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     flex-direction: column;
 }
@@ -54,6 +54,12 @@
 .appear{
     opacity: 1;
     transition: opacity .6s;
+}
+
+.appear-image{
+    opacity: 1;
+    transition: opacity .6s;
+    scale:80%;
 }
 
 .hide-desc{

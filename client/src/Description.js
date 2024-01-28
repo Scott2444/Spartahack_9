@@ -38,8 +38,9 @@ function Description (props){
                     props.handleParty(false)
                 }
                 return (
-                    <div key={key}> 
-                        <p>{val.party}</p>
+                    <div className="stats"key={key}> 
+                        <p className="left">56%</p>
+                        <p className="right">42%</p>
                     </div>
                 );
             })}
