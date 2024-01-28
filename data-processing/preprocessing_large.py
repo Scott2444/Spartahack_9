@@ -106,6 +106,11 @@ def process_data_large():
     for row in data:
         print(row)
 
+    fields.pop(0)
+    fields.pop(0)
+    fields.sort()
+    fields.insert(0, "Result")
+    fields.insert(0, "District")
 
     with open('DistrictDataLarge.csv', 'w', newline='') as csvfile:
         # creating a csv dict writer object
