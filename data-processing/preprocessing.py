@@ -4,7 +4,18 @@ def string_to_int(string):
     return int(string.replace(',', ''))
 
 def process_data():
-    EXCLUDE_FIELDS = ["Median age (years)", "18 years and over"]
+    EXCLUDE_FIELDS = ["Median age (years)", "18 years and over", "65 years and over",
+                      "One race", "Different state", "State of residence", "Different state",
+                      "Born in Puerto Rico, U.S. Island areas, or born abroad to American parent(s)",
+                      "Civilian population 18 years and over", "Total civilian noninstitutionalized population",
+                      "Under 18 years", "65 years and over", "Population 1 year and over", "Different house (in the U.S. or abroad)",
+                      "Same county", "Different county", "Abroad", "Population 16 years and over", "In labor force",
+                      "Civilian labor force", "Not in labor force", "Civilian labor force",
+                      "Workers 16 years and over", "Civilian employed population 16 years and over",
+                      "Median (dollars)", "Owner-occupied units", "Occupied units paying rent",
+                      "Total households", "Median household income (dollars)", "Mean household income (dollars)",
+                      "Civilian noninstitutionalized population under 19 years", "Population 25 years and over",
+                      ""]
 
     file = open('Michigan_District_all.csv')
     csvreader = csv.reader(file)
@@ -26,7 +37,7 @@ def process_data():
             i += 1
             continue
 
-        if '.' in row[3]: # or row[2] in EXCLUDE_FIELDS:  # Skip all float values and excluded fields
+        if '.' in row[3] or row[2] in EXCLUDE_FIELDS:  # Skip all float values and excluded fields
             i += 1
             continue
 
