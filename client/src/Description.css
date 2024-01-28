@@ -1,0 +1,20 @@
+.text-align {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.column-align {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+}
+
+.row-align {
+    display: flex;
+    flex-direction: column;
+}
+
+.hide{
+    filter:opacity(0);
+}

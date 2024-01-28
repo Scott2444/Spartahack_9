@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './App.css';
+import Box from './Box';
 
 function App() {
 
@@ -16,14 +18,16 @@ function App() {
   }, [])
 
   return (
-    <div>
-      {(typeof data.members === 'undefined') ? (
+    <div className="center">
+      <h1>2024 Election Statistical Prediction</h1>
+      <Box/>
+      {/* {(typeof data.members === 'undefined') ? (
         <p>Loading...</p>
       ): (
         data.members.map((member, i) => (
           <p key={i}>{member}</p>
         ))
-      )}
+      )} */}
     </div>
   )
 }
