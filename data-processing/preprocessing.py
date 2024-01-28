@@ -24,7 +24,7 @@ def process_data():
     i = 1
     total_pop = []
     num_districts = 0
-    fields = ["District"]
+    fields = ["District", "Result"]
 
     data = []
     for row in csvreader:
@@ -34,7 +34,7 @@ def process_data():
 
         if i == 1:  # Number of districts
             num_districts = (len(row) - 3) // 2
-            data = [{"District": ""} for q in range(num_districts)]
+            data = [{"District": "", "Result": 0.0} for q in range(num_districts)]
             for j in range(len(data)):
                 data[j]["District"] = STATE + str(j+1)
 
