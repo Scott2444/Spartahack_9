@@ -4,14 +4,14 @@ def string_to_int(string):
     return int(string.replace(',', ''))
 
 def process_data():
-    STATES = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado",
-              "Connecticut", "District ", "of Columbia", "Delaware", "Florida", "Georgia", "Guam",
+    STATES = ["Alaska", "Alabama", "Arkansas", "Arizona", "California", "Colorado",
+              "Connecticut", "Delaware", "Florida", "Georgia",
               "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana",
               "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi",
-              "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico",
-              "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island",
-              "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont",
-              "Washington", "Wisconsin", "West Virginia", "Wyoming"]
+              "Montana", "North_Carolina", "North_Dakota", "Nebraska", "New_Hampshire", "New_Jersey", "New_Mexico",
+              "Nevada", "New_York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode_Island",
+              "South_Carolina", "South_Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Vermont",
+              "Washington", "Wisconsin", "West_Virginia", "Wyoming"]
 
     EXCLUDE_FIELDS = ["Median age (years)", "18 years and over", "65 years and over",
                       "One race", "Different state", "State of residence", "Different state",
@@ -25,6 +25,7 @@ def process_data():
                       "Total households", "Median household income (dollars)", "Mean household income (dollars)",
                       "Civilian noninstitutionalized population under 19 years", "Population 25 years and over",
                       ""]
+    INCLUDE_FIELDS = [""]
 
     data = []
     fields = ["District", "Result"]
@@ -34,7 +35,7 @@ def process_data():
     for STATE in STATES:
         num_districts_covered += num_districts
 
-        file = open(STATE + '_District_all.csv')
+        file = open('states/' + STATE + '_District_all.csv')
         csvreader = csv.reader(file)
 
         i = 1
@@ -51,7 +52,7 @@ def process_data():
                 i += 1
                 continue
 
-            if '.' in row[3] or row[2] in EXCLUDE_FIELDS:  # Skip all float values and excluded fields
+            if '.' in row[3] or row[2] in EXCLUDE_FIELDS or "Percentage" in row[1]:  # Skip all float values and excluded fields
                 i += 1
                 continue
 
