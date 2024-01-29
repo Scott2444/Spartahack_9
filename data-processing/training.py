@@ -29,7 +29,10 @@ raw_dataset = pd.read_csv('InputTrainingData.csv')
 
 # Create a copy of the dataframe
 dataset = raw_dataset.copy()
-del dataset["District"] # Delete the district labeling
+del dataset["District"]  # Delete the district labeling
+dataset.isna().sum()  # Cleans the data
+dataset = dataset.dropna()
+
 
 fields = list(dataset.columns)
 print(fields)
@@ -108,23 +111,22 @@ raw_dataset = pd.read_csv('OutputData.csv')
 
 # Create a copy of the dataframe
 real_dataset = raw_dataset.copy()
+
 districts = real_dataset['District'].tolist()
 del real_dataset["District"] # Delete the district labeling
 real_predictions = full_model.predict(real_dataset).flatten()
 
-print(len(real_predictions))
-print(len(districts))
+print(real_predictions)
 
 predictions = []
 for i in range(len(districts)):
     predictions.append({"District": districts[i], "Result": real_predictions[i]})
 
 print(predictions)
-with open("Predictions.jsonl", "w") as file:
-    # Assuming you have a list of dictionaries named "my_list"
+with open("Predictions.jsonl", "a") as file:
     for dictionary in predictions:
-        json.dump(dictionary, file)  # Write each dictionary to a separate line
-        file.write("\n")  # Add a newline character for JSONL formatting
+        # json_line = json.dump(dictionary)  # Write each dictionary to a separate line
+        file.write(json.dumps(dictionary) + "\n")  # Add a newline character for JSONL formatting
 
 print(len(predictions))
 print(len(districts))
