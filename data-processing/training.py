@@ -120,10 +120,11 @@ print(real_predictions)
 
 predictions = []
 for i in range(len(districts)):
-    predictions.append({"District": districts[i], "Result": real_predictions[i]})
+    if real_predictions[i] != float("NaN"):
+        predictions.append({"District": districts[i], "Result": real_predictions[i]})
 
 print(predictions)
-with open("Predictions.jsonl", "a") as file:
+with open("Predictions.jsonl", "w") as file:
     for dictionary in predictions:
         # json_line = json.dump(dictionary)  # Write each dictionary to a separate line
         file.write(json.dumps(dictionary) + "\n")  # Add a newline character for JSONL formatting
